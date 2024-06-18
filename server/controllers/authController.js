@@ -25,7 +25,7 @@ export const signup = async (req, res) => {
     const { success, data } = signupBody.safeParse(req.body);
     if (!success) {
       return res.status(400).json({
-        error: "Email already registered/Incorrect inputs",
+        error: "Username already registered/Incorrect inputs",
       });
     }
   

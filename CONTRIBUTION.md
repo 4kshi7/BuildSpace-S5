@@ -6,5 +6,5 @@ Please read our [Code of Conduct](CODE_OF_CONDUCT.md).
 ## How to Contribute
 - Fork the repository
 - Create a new branch
-- Make your changes
+- Make your change
 - Submit a pull request

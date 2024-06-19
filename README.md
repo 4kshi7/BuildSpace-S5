@@ -4,9 +4,6 @@
 
 Mindful Tech is a comprehensive productivity and wellness application designed specifically for tech professionals. It aims to promote a healthy work-life balance, improve mental well-being, and enhance overall productivity. This project is being developed by Akshit, Harshit, and Tarun as part of the Buildspace Nights&Weekends S5 program.
 
-![S5](https://framerusercontent.com/assets/pwBHuaogX8VyNSrh9ziF3DxPNE.png)
-
-
 ## Purpose
 
 The tech industry is known for its fast-paced and demanding environment, often leading to stress, burnout, and sedentary lifestyles among professionals. Mindful Tech addresses these challenges by providing a holistic solution that combines productivity tools, mental health resources, and wellness features in a single platform.

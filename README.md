@@ -1,21 +1,20 @@
-# Mindful Tech: A Productivity and Wellness App
+# Mindful Life: A Holistic Productivity and Wellness App
 
 ## Overview
 
-Mindful Tech is a comprehensive productivity and wellness application designed specifically for tech professionals. It aims to promote a healthy work-life balance, improve mental well-being, and enhance overall productivity. This project is being developed by Akshit, Harshit, and Tarun as part of the Buildspace Nights&Weekends S5 program.
+Mindful Life is a comprehensive productivity and wellness application designed for individuals seeking a balanced and fulfilling lifestyle. It aims to promote mental well-being, enhance productivity, and provide a supportive environment for personal growth. This project is being developed by Akshit, Harshit, and Tarun as part of the Buildspace Nights&Weekends S5 program.
 
 ## Purpose
 
-The tech industry is known for its fast-paced and demanding environment, often leading to stress, burnout, and sedentary lifestyles among professionals. Mindful Tech addresses these challenges by providing a holistic solution that combines productivity tools, mental health resources, and wellness features in a single platform.
+In today's fast-paced world, people often struggle with stress, burnout, and finding a healthy work-life balance. Mindful Life addresses these challenges by providing a holistic solution that combines mental health resources, productivity tools, and wellness features in a single platform.
 
 ## Features
 
 ### Current Features
 
 1. **User Authentication (JWT)**: Secure user authentication using JSON Web Tokens (JWT) to ensure privacy and data protection.
-2. **Post Feature**: Users can share their experiences, discoveries, and insights through a community blog section.
-3. **Bcrypt Password Encryption**: User passwords are securely encrypted using the bcrypt algorithm, providing an additional layer of security.
-4. **Community Blogs**: A platform for users to share their experiences, discoveries, and insights related to technology and personal growth.
+2. **Bcrypt Password Encryption**: User passwords are securely encrypted using the bcrypt algorithm, providing an additional layer of security.
+3. **Community Blogs**: A platform for users to share their experiences, discoveries, and insights related to technology and personal growth.
 
 ### Planned Features for now
 
@@ -27,15 +26,15 @@ The tech industry is known for its fast-paced and demanding environment, often l
 
 ## Future Roadmap
 
-As Mindful Tech continues to evolve, the team plans to incorporate additional features based on user feedback and emerging trends in the tech industry. Potential future additions include:
+As Mindful Life continues to evolve, the team plans to incorporate additional features based on user feedback and emerging trends in the wellness and self-improvement industries. Potential future additions include:
 
-- Expanded community features (forums, meetups, mentorship programs)
-- Integration with project management tools and productivity apps
-- AI-powered productivity analysis and recommendations
+- Expanded community features (forums, meetups, peer support groups)
+- Integration with wearable devices for health and activity tracking
+- AI-powered personalized recommendations and insights
 - Customizable UI themes and personalization options
 
-The ultimate goal of Mindful Tech is to become a comprehensive and indispensable tool for tech professionals seeking a harmonious balance between productivity and well-being.
+The ultimate goal of Mindful Life is to become a comprehensive and indispensable tool for individuals seeking a harmonious balance between mental well-being, productivity, and personal growth.
 
 ## Contributing
 
-Mindful Tech is an open-source project, and contributions from the community are welcome. If you'd like to contribute, please follow the standard guidelines for forking the repository, creating a new branch, and submitting a pull request.
+Mindful Life is an open-source project, and contributions from the community are welcome. If you'd like to contribute, please follow the standard guidelines for forking the repository, creating a new branch, and submitting a pull request.

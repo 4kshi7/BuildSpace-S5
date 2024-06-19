@@ -4,15 +4,24 @@ import bcrypt from "bcrypt";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
+const DEFAULT_IMG_URL =
+  "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg";
+
 const signupBody = zod.object({
-  username: zod.string(),
-  password: zod.string(),
-  name: zod.string(),
+  username: zod.string().min(4).max(20),
+  password: zod.string().min(8),
+  name: zod.string().max(25),
 });
 
 const signinBody = zod.object({
   username: zod.string(),
   password: zod.string(),
+});
+
+const updateSchema = zod.object({
+  name: zod.string().max(25).optional(),
+  username: zod.string().min(4).max(20).optional(),
+  img: zod.string().url().optional(),
 });
 
 export const signup = async (req, res) => {
@@ -23,7 +32,7 @@ export const signup = async (req, res) => {
     });
   }
 
-  const { username, password, name } = data;
+  const { username, password, name, img } = data;
 
   try {
     const existingUser = await prisma.user.findUnique({
@@ -43,6 +52,7 @@ export const signup = async (req, res) => {
         username,
         password: hashedPassword,
         name,
+        img: DEFAULT_IMG_URL || img,
       },
     });
 
@@ -109,6 +119,7 @@ export const bulk = async (req, res) => {
         id: true,
         username: true,
         name: true,
+        img: true,
       },
     });
     res.status(200).json(users);
@@ -118,5 +129,48 @@ export const bulk = async (req, res) => {
   }
 };
 
+export const update = async (req, res) => {
+  const userId = req.userId;
 
-export const update = async () => {};
+  const { success, data } = updateSchema.safeParse(req.body);
+
+  if (!success) {
+    return res.status(400).json({
+      error: "Invalid input",
+    });
+  }
+
+  const { name, username, img } = data;
+
+  try {
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        name: name || undefined,
+        username: username || undefined,
+        img: img || undefined,
+      },
+    });
+
+    res.status(200).json({
+      message: "User updated successfully",
+      user: {
+        id: updatedUser.id,
+        name: updatedUser.name,
+        username: updatedUser.username,
+        img: updatedUser.img,
+      },
+    });
+  } catch (error) {
+    if (error.code === "P2002") {
+      return res.status(400).json({
+        error: "Username already taken",
+      });
+    }
+
+    console.error(error);
+    res.status(500).json({
+      error: "Internal server error",
+    });
+  }
+};

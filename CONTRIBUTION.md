@@ -8,3 +8,4 @@ Please read our [Code of Conduct](CODE_OF_CONDUCT.md).
 - Create a new branch
 - Make your change
 - Submit a pull request
+- Wait for your pull request to be accepted

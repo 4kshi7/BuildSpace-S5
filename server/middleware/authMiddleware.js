@@ -1,18 +1,17 @@
 import jwt from "jsonwebtoken";
 
 export const authMiddleware = (req, res, next) => {
-  const header = req.headers.authorization;
-  if (!header) {
-    return res.status(403).json({ error: "Not authorized" });
-  }
+  const token = req.cookies.token;
 
-  const token = header.startsWith("Bearer ") ? header.split(" ")[1] : header;
+  if (!token) {
+    return res.status(401).json({ error: "Authentication required" });
+  }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.userId = decoded.userId;
     next();
   } catch (error) {
-    return res.status(403).json({ error: error.message });
+    return res.status(403).json({ error: "Invalid token" });
   }
 };

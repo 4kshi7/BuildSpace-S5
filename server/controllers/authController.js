@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import zod from "zod";
 import bcrypt from "bcrypt";
+// import cookieParser from "cookieParser";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
@@ -23,6 +24,13 @@ const updateSchema = zod.object({
   username: zod.string().min(4).max(20).optional(),
   img: zod.string().url().optional(),
 });
+
+const cookieConfig = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production", 
+  sameSite: 'strict', // Helps prevent CSRF attacks
+  maxAge: 24 * 60 * 60 * 1000 // 24 hours
+};
 
 export const signup = async (req, res) => {
   const { success, data } = signupBody.safeParse(req.body);
@@ -59,9 +67,10 @@ export const signup = async (req, res) => {
     const userId = user.id;
     const token = jwt.sign({ userId }, process.env.JWT_SECRET);
 
+    res.cookie('token', token, cookieConfig);
+
     res.status(201).json({
       message: "User created successfully",
-      token,
     });
   } catch (error) {
     console.error(error);
@@ -103,13 +112,20 @@ export const signin = async (req, res) => {
 
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
 
-    res.json({ token });
+    res.cookie('token', token, cookieConfig);
+
+    res.json({ message: "Logged in successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({
       error: "Internal server error",
     });
   }
+};
+
+export const logout = (req, res) => {
+  res.clearCookie('token');
+  res.json({ message: "Logged out successfully" });
 };
 
 export const bulk = async (req, res) => {

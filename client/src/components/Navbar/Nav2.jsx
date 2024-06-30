@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
+import {useNavigate} from "react-router-dom";
 
 export const Nav2 = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const menuItems = ["Home", "Features", "About", "Contact"];
+  const menuItems = ["Home", "Login", "Blogs", "Therapy"];
+  const navItems = ["/", "/login", "/blogs", "/chatbot"];
+  const navigate = useNavigate()
 
   const menuVariants = {
     closed: {
@@ -67,7 +70,7 @@ export const Nav2 = () => {
               {menuItems.map((item, i) => (
                 <motion.a
                   key={item}
-                  href="#"
+                  onClick={()=>navigate(`${navItems[i]}`)}
                   custom={i}
                   variants={menuItemVariants}
                   className="text-[#5AD1B1] text-2xl font-semibold my-4 hover:text-white transition-colors duration-300"

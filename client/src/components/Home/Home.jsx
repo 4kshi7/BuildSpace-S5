@@ -23,7 +23,7 @@ const Home = () => {
           className="w-full flex justify-center items-center mb-12"
         >
           <h1 className="text-[#5AD1B1] font-bold text-4xl sm:text-5xl">
-            <span className="italic">Lotus</span>Focus
+            <span className="italic font-semibold">Lotus</span>Focus
           </h1>
         </motion.div>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 mb-12">

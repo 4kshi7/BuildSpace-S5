@@ -30,7 +30,7 @@ function App() {
             <Route path="/MentalHealthForm" element={<MentalHealthForm />} />
             <Route path="PhysicalHealthForm" element={<PhysicalHealthForm />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/signup" element={<Register />} />
             <Route path="/forgot-password" element={<Forgot />} />
             <Route path="/reset-password" element={<Reset />} />
           </Routes>

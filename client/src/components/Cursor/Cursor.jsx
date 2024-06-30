@@ -32,8 +32,8 @@ const Cursor = () => {
 
     return (
         <>
-            <div ref={cursorRef} className="cursor w-2 h-2 bg-black rounded-full fixed pointer-events-none z-50 transform -translate-x-1/2 -translate-y-1/2"></div>
-            <div ref={followerRef} className="cursor-follower w-8 h-8 border-2 border-black rounded-full fixed pointer-events-none z-50 transform -translate-x-1/2 -translate-y-1/2"></div>
+            <div ref={cursorRef} className="cursor w-2 h-2 bg-white rounded-full fixed pointer-events-none z-50 transform -translate-x-1/2 -translate-y-1/2"></div>
+            <div ref={followerRef} className="cursor-follower w-8 h-8 border-2 border-white rounded-full fixed pointer-events-none z-50 transform -translate-x-1/2 -translate-y-1/2"></div>
         </>
     );
 };

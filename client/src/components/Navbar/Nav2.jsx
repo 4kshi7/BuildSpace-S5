@@ -3,42 +3,31 @@ import { motion, AnimatePresence } from "framer-motion";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios'; // Make sure to import axios
+import axios from "axios"; // Make sure to import axios
+import useAuthCheck from "../../utils/checkAuth";
+import { Loading } from "../Loader/Loading";
 
 export const Nav2 = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoggedIn, isLoading } = useAuthCheck(); // Use the hook
 
   const navigate = useNavigate();
 
-  // Check if user is logged in when component mounts
-  useEffect(() => {
-    const checkLoginStatus = async () => {
-      try {
-        // You'll need to implement this endpoint on your backend
-        const response = await axios.get('http://localhost:5000/api/v1/user/check-auth', { withCredentials: true });
-        setIsLoggedIn(response.data.isLoggedIn);
-      } catch (error) {
-        console.error('Error checking auth status:', error);
-        setIsLoggedIn(false);
-      }
-    };
-
-    checkLoginStatus();
-  }, []);
-
   const handleLogout = async () => {
     try {
-      await axios.post('http://localhost:5000/api/v1/user/logout', {}, { withCredentials: true });
-      setIsLoggedIn(false);
-      navigate('/login');
+      await axios.post(
+        "http://localhost:5000/api/v1/user/logout",
+        {},
+        { withCredentials: true }
+      );
+      navigate("/login");
+      window.location.reload(); // Force a reload to update auth state
     } catch (error) {
-      console.error('Error logging out:', error);
+      console.error("Error logging out:", error);
     }
   };
-
-  const menuItems = ["Home", "Blogs", "Therapy", isLoggedIn ? "Logout" : "Login"];
-  const navItems = ["/", "/blogs", "/chatbot", isLoggedIn ? "/" : "/login"];
+  const menuItems = ["Home", "Therapy", isLoggedIn ? "Logout" : "Login"];
+  const navItems = ["/", "/chatbot", isLoggedIn ? "/" : "/login"];
 
   const menuVariants = {
     closed: {
@@ -46,28 +35,28 @@ export const Nav2 = () => {
       transition: {
         type: "spring",
         stiffness: 400,
-        damping: 40
-      }
+        damping: 40,
+      },
     },
     open: {
       x: 0,
       transition: {
         type: "spring",
         stiffness: 400,
-        damping: 40
-      }
-    }
+        damping: 40,
+      },
+    },
   };
 
   const menuItemVariants = {
     closed: { x: 50, opacity: 0 },
-    open: i => ({
+    open: (i) => ({
       x: 0,
       opacity: 1,
       transition: {
-        delay: i * 0.1
-      }
-    })
+        delay: i * 0.1,
+      },
+    }),
   };
 
   const handleMenuItemClick = (index) => {
@@ -78,6 +67,10 @@ export const Nav2 = () => {
     }
     setIsMenuOpen(false);
   };
+
+  if (isLoading) {
+    return <Loading/>
+  }
 
   return (
     <div className="h-16 w-full flex items-center justify-between px-2 md:px-6 lg:px-10">
@@ -102,7 +95,7 @@ export const Nav2 = () => {
             animate="open"
             exit="closed"
             variants={menuVariants}
-            className="fixed top-0 right-0 h-full w-64 bg-[#062719] shadow-lg z-40"
+            className="fixed top-0 right-0 h-full w-64 bg-[#062719]/60 backdrop-blur-lg shadow-lg z-40"
           >
             <div className="flex flex-col h-full justify-center items-center">
               {menuItems.map((item, i) => (

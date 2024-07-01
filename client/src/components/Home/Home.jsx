@@ -31,7 +31,7 @@ const Home = () => {
             <Card key={index} title={card.title} icon={card.icon} index={index} />
           ))}
         </div>
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.5 }}
@@ -43,15 +43,15 @@ const Home = () => {
             egestas tempus. Feugiat tincidunt vitae bibendum ipsum amet laoreet vel. Rhoncus feugiat
             accumsan aenean quisque.
           </p>
-        </motion.div>
-        <motion.div
+        </motion.div> */}
+        {/* <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.5 }}
           className="mb-12"
         >
           <div className="bg-[#062719] h-40 sm:h-56 rounded-lg"></div>
-        </motion.div>
+        </motion.div> */}
         <MusicPlayer />
       </div>
       <Footer />

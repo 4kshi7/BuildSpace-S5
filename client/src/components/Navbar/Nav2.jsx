@@ -1,15 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from 'axios'; // Make sure to import axios
 
 export const Nav2 = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const menuItems = ["Home", "Login", "Blogs", "Therapy"];
-  const navItems = ["/", "/login", "/blogs", "/chatbot"];
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  // Check if user is logged in when component mounts
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        // You'll need to implement this endpoint on your backend
+        const response = await axios.get('http://localhost:5000/api/v1/user/check-auth', { withCredentials: true });
+        setIsLoggedIn(response.data.isLoggedIn);
+      } catch (error) {
+        console.error('Error checking auth status:', error);
+        setIsLoggedIn(false);
+      }
+    };
+
+    checkLoginStatus();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await axios.post('http://localhost:5000/api/v1/user/logout', {}, { withCredentials: true });
+      setIsLoggedIn(false);
+      navigate('/login');
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
+
+  const menuItems = ["Home", "Blogs", "Therapy", isLoggedIn ? "Logout" : "Login"];
+  const navItems = ["/", "/blogs", "/chatbot", isLoggedIn ? "/" : "/login"];
 
   const menuVariants = {
     closed: {
@@ -41,6 +70,15 @@ export const Nav2 = () => {
     })
   };
 
+  const handleMenuItemClick = (index) => {
+    if (menuItems[index] === "Logout") {
+      handleLogout();
+    } else {
+      navigate(navItems[index]);
+    }
+    setIsMenuOpen(false);
+  };
+
   return (
     <div className="h-16 w-full flex items-center justify-between px-2 md:px-6 lg:px-10">
       <h1 className="text-transparent">LotusFocus</h1>
@@ -70,10 +108,10 @@ export const Nav2 = () => {
               {menuItems.map((item, i) => (
                 <motion.a
                   key={item}
-                  onClick={()=>navigate(`${navItems[i]}`)}
+                  onClick={() => handleMenuItemClick(i)}
                   custom={i}
                   variants={menuItemVariants}
-                  className="text-[#5AD1B1] text-2xl font-semibold my-4 hover:text-white transition-colors duration-300"
+                  className="text-[#5AD1B1] text-2xl font-semibold my-4 hover:text-white transition-colors duration-300 cursor-pointer"
                 >
                   {item}
                 </motion.a>

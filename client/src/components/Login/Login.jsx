@@ -1,14 +1,32 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const LoginForm = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     
+    try {
+      const response = await axios.post('http://localhost:5000/api/v1/user/signin', {
+        username,
+        password
+      }, {
+        withCredentials: true
+      });
+      
+      if (response.data.message === "Logged in successfully") {
+        navigate('/'); // Redirect to dashboard or home page
+      }
+    } catch (error) {
+      setError(error.response?.data?.message || 'An error occurred. Please try again.');
+    }
   };
 
   return (
@@ -23,19 +41,20 @@ const LoginForm = () => {
           <span className="italic">Lotus</span>Focus
         </h2>
         <form className="bg-[#062719]/90 rounded-lg p-8 shadow-lg" onSubmit={handleSubmit}>
+          {error && <p className="text-red-500 mb-4">{error}</p>}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2, duration: 0.5 }}
           >
-            <label className="block text-[#5AD1B1] mb-2" htmlFor="email">Email</label>
+            <label className="block text-[#5AD1B1] mb-2" htmlFor="username">Username</label>
             <input 
-              type="email" 
-              id="email"
+              type="text" 
+              id="username"
               className="w-full bg-[#041811] text-white rounded px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-[#5AD1B1]"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </motion.div>
           <motion.div

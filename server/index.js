@@ -11,8 +11,14 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// CORS configuration
+const corsOptions = {
+  origin: 'http://localhost:5173', // your frontend's origin
+  credentials: true, // to allow credentials (cookies, authorization headers, etc.)
+};
+
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(cookieParser())
 app.use(express.json());
 

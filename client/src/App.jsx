@@ -12,6 +12,8 @@ import ChatBot from './components/ChatBot/ChatBot'
 import MentalHealthForm from './components/Form/MentalHealthForm/MentalHealthForm'
 import PhysicalHealthForm from './components/Form/PhysicalHealthForm/PhysicalHealthForm'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import ChatBot2 from './components/ChatBot/Chatbox2'
+import { Nav2 } from './components/Navbar/Nav2'
 
 
 function App() {
@@ -22,11 +24,11 @@ function App() {
       <Router>
         <div className="App cursor-none">
           <Cursor />
-          {/* <Navbar /> */}
+          {/* <Nav2 /> */}
           <Routes>
             <Route path="/" element={<Home/>} />
             <Route path="/about" element={<About />} />
-            <Route path="/ChatBot" element={<ChatBot />} />
+            <Route path="/ChatBot" element={<ChatBot2/>} />
             <Route path="/MentalHealthForm" element={<MentalHealthForm />} />
             <Route path="PhysicalHealthForm" element={<PhysicalHealthForm />} />
             <Route path="/login" element={<Login />} />

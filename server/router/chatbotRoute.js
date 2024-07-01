@@ -12,7 +12,7 @@ router.post("/chat", authMiddleware, async (req, res) => {
   try {
     const userId = req.userId; // Ensure this is correctly set by authMiddleware
     const userInput = req.body.userInput;
-    const systemMessage = `You are a helpful AI therapist.`;
+    const systemMessage = `You are a helpful AI therapist answer short and precise.`;
 
     // Initialize chat history for the user if it doesn't exist
     if (!chatHistories[userId]) {

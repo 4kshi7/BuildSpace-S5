@@ -128,6 +128,20 @@ export const logout = (req, res) => {
   res.json({ message: "Logged out successfully" });
 };
 
+export const checkauth = (req, res) => {
+  const token = req.cookies.token;
+  if (token) {
+    try {
+      jwt.verify(token, process.env.JWT_SECRET);
+      res.json({ isLoggedIn: true });
+    } catch (error) {
+      res.json({ isLoggedIn: false });
+    }
+  } else {
+    res.json({ isLoggedIn: false });
+  }
+}
+
 export const bulk = async (req, res) => {
   try {
     const users = await prisma.user.findMany({

@@ -31,7 +31,6 @@ const signinBody = zod.object({
 const updateSchema = zod.object({
   name: zod.string().max(25).optional(),
   username: zod.string().min(4).max(20).optional(),
-  email: zod.string().email(),
   img: zod.string().url().optional(),
 });
 
@@ -153,37 +152,6 @@ export const checkauth = (req, res) => {
   }
 };
 
-export const bulk = async (req, res) => {
-  try {
-    const requestingUserId = req.userId; // Assume you have the user's ID from authentication middleware
-    const requestingUser = await prisma.user.findUnique({
-      where: { id: requestingUserId },
-      select: { role: true },
-    });
-
-    if (requestingUser.role !== "admin") {
-      return res
-        .status(403)
-        .json({ error: "Unauthorized. Admin access required." });
-    }
-
-    // If the user is an admin, proceed with fetching all users
-    const users = await prisma.user.findMany({
-      select: {
-        id: true,
-        username: true,
-        name: true,
-        img: true,
-        email: true,
-      },
-    });
-    res.status(200).json(users);
-  } catch (error) {
-    console.error("Error fetching users:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-};
-
 export const update = async (req, res) => {
   const userId = req.userId;
 
@@ -252,5 +220,61 @@ export const sendMail = async (req, res) => {
   } catch (error) {
     console.error("Error sending test email:", error);
     res.status(500).send("Error sending test email");
+  }
+};
+
+export const bulk = async (req, res) => {
+  try {
+    const requestingUserId = req.userId; // Assume you have the user's ID from authentication middleware
+    const requestingUser = await prisma.user.findUnique({
+      where: { id: requestingUserId },
+      select: { role: true },
+    });
+
+    if (requestingUser.role !== "admin") {
+      return res
+        .status(403)
+        .json({ error: "Unauthorized. Admin access required." });
+    }
+
+    // If the user is an admin, proceed with fetching all users
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        username: true,
+        name: true,
+        img: true,
+        email: true,
+      },
+    });
+    res.status(200).json(users);
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export const userInfo = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        username: true,
+        name: true,
+        img: true,
+        email: true,
+        role: true,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error " + error });
   }
 };

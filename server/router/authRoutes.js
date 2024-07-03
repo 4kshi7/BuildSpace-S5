@@ -1,5 +1,14 @@
 import express from "express";
-import { bulk, checkauth, logout, sendMail, signin, signup, update } from "../controllers/authController.js";
+import {
+  bulk,
+  checkauth,
+  logout,
+  sendMail,
+  signin,
+  signup,
+  update,
+  userInfo,
+} from "../controllers/authController.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 import { isAdmin } from "../middleware/adminMiddleware.js";
 
@@ -11,6 +20,7 @@ router.post("/logout", logout);
 router.get("/check-auth", checkauth);
 router.put("/", authMiddleware, update);
 router.get("/bulk", authMiddleware, bulk);
-router.get("/test-email",authMiddleware, isAdmin, sendMail);
+router.get("/info", authMiddleware, userInfo);
+router.get("/send-email-all", authMiddleware, isAdmin, sendMail);
 
 export default router;

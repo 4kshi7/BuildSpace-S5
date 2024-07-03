@@ -1,47 +1,61 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Nav2 } from "../Navbar/Nav2";
+import axios from "axios";
 
 const Profile = () => {
   const [user, setUser] = useState({
     name: "",
     username: "",
     img: "",
+    email: "",
   });
   const [isEditing, setIsEditing] = useState(false);
   const [editedUser, setEditedUser] = useState({ ...user });
 
   useEffect(() => {
-    // Fetch user data from the backend
-    // This is a placeholder. Replace with actual API call.
-    setUser({
-      name: "John Doe",
-      username: "johndoe",
-      img: "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg",
-    });
+    fetchUserData();
   }, []);
+
+  const fetchUserData = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/v1/user/info",
+        { withCredentials: true }
+      );
+      setUser(response.data);
+      setEditedUser(response.data);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
 
   const handleEdit = () => {
     setIsEditing(true);
-    setEditedUser({ ...user });
   };
 
   const handleSave = async () => {
     try {
-      // Call the update API endpoint
-      // This is a placeholder. Replace with actual API call.
-      // const response = await fetch('/api/user/update', {
-      //   method: 'PUT',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(editedUser),
-      // });
-      // const data = await response.json();
-      // if (data.message === "User updated successfully") {
-      setUser(editedUser);
-      setIsEditing(false);
-      // }
+      const response = await axios.put(
+        "http://localhost:5000/api/v1/user/",
+        {
+          name: editedUser.name,
+          username: editedUser.username,
+        },
+        { withCredentials: true }
+      );
+      if (response.data.message === "User updated successfully") {
+        setUser(response.data.user);
+        setIsEditing(false);
+      }
     } catch (error) {
       console.error("Error updating user:", error);
+      if (
+        error.response &&
+        error.response.data.error === "Username already taken"
+      ) {
+        alert("Username already taken. Please choose a different username.");
+      }
     }
   };
 
@@ -77,16 +91,6 @@ const Profile = () => {
               alt="Profile"
               className="w-32 h-32 rounded-full object-cover mb-4"
             />
-            {isEditing ? (
-              <input
-                type="text"
-                name="img"
-                value={editedUser.img}
-                onChange={handleChange}
-                className="bg-[#0b4334] text-white px-4 py-2 rounded-full w-full max-w-xs text-center"
-                placeholder="Image URL"
-              />
-            ) : null}
           </div>
 
           <div className="space-y-4">
@@ -116,6 +120,15 @@ const Profile = () => {
                 />
               ) : (
                 <p className="text-lg">{user.username}</p>
+              )}
+            </div>
+            <div>
+              <label className="text-[#5AD1B1] text-sm">Email</label>
+              <p className="text-lg">{user.email}</p>
+              {isEditing && (
+                <p className="text-sm text-[#5AD1B1] mt-1">
+                  To change your email, please contact lotusfocus.life@gmail.com
+                </p>
               )}
             </div>
           </div>

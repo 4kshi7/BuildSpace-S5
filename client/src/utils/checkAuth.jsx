@@ -9,11 +9,6 @@ const useAuthCheck = () => {
 
   useEffect(() => {
     const checkLoginStatus = async () => {
-      if (location.pathname === "/") {
-        setIsLoading(false);
-        return;
-      }
-      
       try {
         const response = await axios.get(
           "http://localhost:5000/api/v1/user/check-auth",

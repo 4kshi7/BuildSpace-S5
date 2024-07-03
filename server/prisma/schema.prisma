@@ -12,8 +12,10 @@ model User {
   name     String
   username String  @unique
   password String
+  email    String  @unique
   img      String?
   posts    Post[]
+  role     Role    @default(user)
 }
 
 model Post {
@@ -25,4 +27,9 @@ model Post {
   published     Boolean  @default(false)
   publishedDate DateTime @default(now())
   User          User     @relation(fields: [userId], references: [id])
+}
+
+enum Role {
+  admin
+  user
 }

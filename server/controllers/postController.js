@@ -1,6 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
+const default_img =
+  "https://66.media.tumblr.com/307fa320611fc38d9aec299716535d12/tumblr_ov3wxpXUjL1rn5gv3o1_500.gif";
+
 export const publishPost = async (req, res) => {
   try {
     const { title, content, imgUrl } = req.body;
@@ -11,7 +14,7 @@ export const publishPost = async (req, res) => {
         userId,
         title,
         content,
-        imgUrl,
+        imgUrl: default_img || imgUrl,
       },
     });
 
@@ -57,7 +60,7 @@ export const getPosts = async (req, res) => {
             username: true,
             img: true,
           },
-        }, 
+        },
       },
     });
 

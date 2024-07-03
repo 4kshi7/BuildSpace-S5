@@ -1,15 +1,24 @@
 import jwt from "jsonwebtoken";
 import zod from "zod";
 import bcrypt from "bcrypt";
-// import cookieParser from "cookieParser";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
+import nodemailer from "nodemailer";
 
 const DEFAULT_IMG_URL =
   "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg";
 
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USERNAME,
+    pass: process.env.EMAIL_PASSWORD,
+  },
+});
+
 const signupBody = zod.object({
   username: zod.string().min(4).max(20),
+  email: zod.string().email(),
   password: zod.string().min(8),
   name: zod.string().max(25),
 });
@@ -22,14 +31,15 @@ const signinBody = zod.object({
 const updateSchema = zod.object({
   name: zod.string().max(25).optional(),
   username: zod.string().min(4).max(20).optional(),
+  email: zod.string().email(),
   img: zod.string().url().optional(),
 });
 
 const cookieConfig = {
   httpOnly: true,
-  secure: process.env.NODE_ENV === "production", 
-  sameSite: 'strict', // Helps prevent CSRF attacks
-  maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "strict", // Helps prevent CSRF attacks
+  maxAge: 24 * 60 * 60 * 1000, // 24 hours
 };
 
 export const signup = async (req, res) => {
@@ -40,7 +50,7 @@ export const signup = async (req, res) => {
     });
   }
 
-  const { username, password, name, img } = data;
+  const { username, password, name, email, img } = data;
 
   try {
     const existingUser = await prisma.user.findUnique({
@@ -60,6 +70,7 @@ export const signup = async (req, res) => {
         username,
         password: hashedPassword,
         name,
+        email,
         img: DEFAULT_IMG_URL || img,
       },
     });
@@ -67,7 +78,7 @@ export const signup = async (req, res) => {
     const userId = user.id;
     const token = jwt.sign({ userId }, process.env.JWT_SECRET);
 
-    res.cookie('token', token, cookieConfig);
+    res.cookie("token", token, cookieConfig);
 
     res.status(201).json({
       message: "User created successfully",
@@ -112,7 +123,7 @@ export const signin = async (req, res) => {
 
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
 
-    res.cookie('token', token, cookieConfig);
+    res.cookie("token", token, cookieConfig);
 
     res.json({ message: "Logged in successfully" });
   } catch (error) {
@@ -124,7 +135,7 @@ export const signin = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-  res.clearCookie('token');
+  res.clearCookie("token");
   res.json({ message: "Logged out successfully" });
 };
 
@@ -140,16 +151,30 @@ export const checkauth = (req, res) => {
   } else {
     res.json({ isLoggedIn: false });
   }
-}
+};
 
 export const bulk = async (req, res) => {
   try {
+    const requestingUserId = req.userId; // Assume you have the user's ID from authentication middleware
+    const requestingUser = await prisma.user.findUnique({
+      where: { id: requestingUserId },
+      select: { role: true },
+    });
+
+    if (requestingUser.role !== "admin") {
+      return res
+        .status(403)
+        .json({ error: "Unauthorized. Admin access required." });
+    }
+
+    // If the user is an admin, proceed with fetching all users
     const users = await prisma.user.findMany({
       select: {
         id: true,
         username: true,
         name: true,
         img: true,
+        email: true,
       },
     });
     res.status(200).json(users);
@@ -170,7 +195,7 @@ export const update = async (req, res) => {
     });
   }
 
-  const { name, username, img } = data;
+  const { name, username, email, img } = data;
 
   try {
     const updatedUser = await prisma.user.update({
@@ -179,6 +204,7 @@ export const update = async (req, res) => {
         name: name || undefined,
         username: username || undefined,
         img: img || undefined,
+        email: email || undefined,
       },
     });
 
@@ -189,6 +215,7 @@ export const update = async (req, res) => {
         name: updatedUser.name,
         username: updatedUser.username,
         img: updatedUser.img,
+        email: updatedUser.email,
       },
     });
   } catch (error) {
@@ -202,5 +229,28 @@ export const update = async (req, res) => {
     res.status(500).json({
       error: "Internal server error",
     });
+  }
+};
+
+export const sendMail = async (req, res) => {
+  try {
+    const users = await prisma.user.findMany({
+      select: {
+        email: true,
+      },
+    });
+    const emailAddresses = users.map((user) => user.email);
+
+    await transporter.sendMail({
+      from: process.env.EMAIL_USERNAME,
+      bcc: emailAddresses, // Use BCC to hide recipients from each other
+      subject: "Test Email",
+      text: "If you're reading this, the email functionality is working!",
+    });
+
+    res.send(`Test email sent successfully to ${emailAddresses.length} users`);
+  } catch (error) {
+    console.error("Error sending test email:", error);
+    res.status(500).send("Error sending test email");
   }
 };

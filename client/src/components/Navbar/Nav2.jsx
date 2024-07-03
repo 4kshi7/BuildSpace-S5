@@ -26,8 +26,13 @@ export const Nav2 = () => {
       console.error("Error logging out:", error);
     }
   };
-  const menuItems = ["Home", "Therapy", isLoggedIn ? "Logout" : "Login"];
-  const navItems = ["/", "/chatbot", isLoggedIn ? "/" : "/login"];
+  const menuItems = [
+    "Home",
+    "Profile",
+    "Therapy",
+    isLoggedIn ? "Logout" : "Login",
+  ];
+  const navItems = ["/", "/profile", "/chatbot", isLoggedIn ? "/" : "/login"];
 
   const menuVariants = {
     closed: {
@@ -69,7 +74,7 @@ export const Nav2 = () => {
   };
 
   if (isLoading) {
-    return <Loading/>
+    return <Loading />;
   }
 
   return (

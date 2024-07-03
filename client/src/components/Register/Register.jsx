@@ -6,8 +6,11 @@ import axios from 'axios';
 const RegisterForm = () => {
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -18,7 +21,8 @@ const RegisterForm = () => {
       const response = await axios.post('http://localhost:5000/api/v1/user/signup', {
         name,
         username,
-        password
+        password,
+        email
       }, {
         withCredentials: true
       });
@@ -57,6 +61,21 @@ const RegisterForm = () => {
               placeholder="Enter your full name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+            />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+          >
+            <label className="block text-[#5AD1B1] mb-2" htmlFor="username">Email</label>
+            <input 
+              type="email" 
+              id="mail"
+              className="w-full bg-[#041811] text-white rounded px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-[#5AD1B1]"
+              placeholder="Enter your Email Address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </motion.div>
           <motion.div

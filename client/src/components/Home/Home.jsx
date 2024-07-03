@@ -1,16 +1,48 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Nav2 } from "../Navbar/Nav2";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const cards = [
-    { title: "Therapy", icon: "🧠" },
-    { title: "Pomodoro", icon: "⏱️" },
-    { title: "Journal", icon: "📓" },
-    { title: "Community", icon: "👥" },
-    { title: "Music", icon: "🎵" },
-    { title: "Health", icon: "💪" },
+    { 
+      title: "Therapy", 
+      icon: "🧠", 
+      description: "Access professional mental health support and resources.",
+      link: "/chatbot"
+    },
+    { 
+      title: "Pomodoro", 
+      icon: "⏱️", 
+      description: "Boost productivity with our customizable Pomodoro timer.",
+      link: "/pomodoro"
+    },
+    { 
+      title: "Journal", 
+      icon: "📓", 
+      description: "Track your thoughts and emotions with our digital journal.",
+      link: "/journal"
+    },
+    { 
+      title: "Community", 
+      icon: "👥", 
+      description: "Connect with like-minded individuals for support and growth.",
+      link: "/community"
+    },
+    { 
+      title: "Music", 
+      icon: "🎵", 
+      description: "Discover focus-enhancing playlists and ambient sounds.",
+      link: "/music"
+    },
+    { 
+      title: "Health", 
+      icon: "💪", 
+      description: "Access resources for physical and mental well-being.",
+      link: "/health"
+    },
   ];
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-customGreen to-customBlack text-white">
@@ -26,9 +58,16 @@ const Home = () => {
             <span className="italic font-semibold">Lotus</span>Focus
           </h1>
         </motion.div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {cards.map((card, index) => (
-            <Card key={index} title={card.title} icon={card.icon} index={index} />
+            <Card 
+              key={index} 
+              title={card.title} 
+              icon={card.icon} 
+              description={card.description}
+              link={card.link}
+              index={index} 
+            />
           ))}
         </div>
         {/* <motion.div
@@ -61,16 +100,55 @@ const Home = () => {
 
 export default Home;
 
-const Card = ({ title, icon, index }) => {
+const Card = ({ title, icon, index, description, link }) => {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: 0.1 * index, duration: 0.3 }}
-      className="bg-[#062719]/20 rounded-xl p-6 flex flex-col items-start justify-between aspect-[4/5] relative overflow-hidden"
+      className="bg-[#062719]/20 rounded-xl p-6 flex flex-col items-start justify-between aspect-[4/5] relative overflow-hidden group hover:bg-[#062719]/40 transition-colors duration-300"
     >
-      <span className="text-[#5AD1B1] text-2xl">{icon}</span>
-      <h2 className="text-sm sm:text-base font-semibold">{title}</h2>
+      <motion.span
+        initial={{ scale: 1 }}
+        whileHover={{ scale: 1.2 }}
+        className="text-[#5AD1B1] text-3xl mb-4"
+      >
+        {icon}
+      </motion.span>
+      <div>
+        <motion.h2
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.2 * index, duration: 0.3 }}
+          className="text-base sm:text-lg font-semibold mb-2"
+        >
+          {title}
+        </motion.h2>
+        <motion.p
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.3 * index, duration: 0.3 }}
+          className="text-sm text-gray-300 mb-4"
+        >
+          {description}
+        </motion.p>
+      </div>
+      <motion.div
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.4 * index, duration: 0.3 }}
+        className="w-full"
+      >
+        <Link to={link}>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="w-full bg-[#0b4334] text-[#fff] py-2 rounded-full text-sm font-semibold hover:bg-[#4BC0A0] transition-colors duration-300"
+          >
+            Explore {title}
+          </motion.button>
+        </Link>
+      </motion.div>
     </motion.div>
   );
 };

@@ -8,14 +8,15 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(uuid())
+  id       String    @id @default(uuid())
   name     String
-  username String  @unique
+  username String    @unique
   password String
-  email    String  @unique
+  email    String    @unique
   img      String?
   posts    Post[]
-  role     Role    @default(user)
+  role     Role      @default(user)
+  Journal  Journal[]
 }
 
 model Post {
@@ -27,6 +28,16 @@ model Post {
   published     Boolean  @default(false)
   publishedDate DateTime @default(now())
   User          User     @relation(fields: [userId], references: [id])
+}
+
+model Journal {
+  id        String   @id @default(uuid())
+  userId    String
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  User      User     @relation(fields: [userId], references: [id])
 }
 
 enum Role {

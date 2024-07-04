@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios"; // Make sure to import axios
 import useAuthCheck from "../../utils/checkAuth";
 import { Loading } from "../Loader/Loading";
+import MiniMusicControl from "../Music/MiniMusicControl";
 
 export const Nav2 = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -114,6 +115,7 @@ export const Nav2 = () => {
                   {item}
                 </motion.a>
               ))}
+              <MiniMusicControl />
             </div>
           </motion.div>
         )}

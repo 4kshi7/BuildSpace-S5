@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { Loading } from "../Loader/Loading";
+import { Nav2 } from "../Navbar/Nav2";
+import ReactQuill from "react-quill";
 
 const ViewJournal = () => {
   const [journal, setJournal] = useState(null);
@@ -43,7 +45,8 @@ const ViewJournal = () => {
   }
 
   return (
-    <motion.div className="min-h-screen bg-gradient-to-br from-customGreen to-customBlack text-white p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-customGreen to-customBlack text-white ">
+      <Nav2 />
       <div className="max-w-3xl mx-auto">
         <div className="mb-4 text-sm text-gray-400">
           <span>
@@ -54,10 +57,14 @@ const ViewJournal = () => {
           </span>
         </div>
         <h1 className="text-3xl font-bold mb-4">{journal.title}</h1>
-        <div
-          className="bg-[#062719] rounded-lg p-4 mb-4"
-          dangerouslySetInnerHTML={{ __html: journal.content }}
-        />
+        <div className="bg-[#062719] rounded-lg p-4 mb-4" >
+        <ReactQuill
+              value={journal.content}
+              readOnly={true}
+              theme={"bubble"}
+              className="quill"
+            />
+        </div>
         <div className="flex justify-end space-x-4">
           <Link to={`/edit-journal/${id}`}>
             <motion.button
@@ -78,7 +85,7 @@ const ViewJournal = () => {
           </motion.button>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

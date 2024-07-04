@@ -1,23 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
-::-webkit-scrollbar{
-    width: 7px;
-    height: 7px;
-    background: black;
+html,
+body {
+  font-family: "Rubkit", sans-serif;
 }
 
-::-webkit-scrollbar-thumb{
-    background:  #181819;
-    border-radius: 10px;
-    border: #4a4a4a solid 0.5px;
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+  background: black;
 }
 
-::-webkit-scrollbar-thumb:hover{
-    background:  #2EA423 ;
-    border-radius: 10px;
+::-webkit-scrollbar-thumb {
+  background: #181819;
+  border-radius: 10px;
+  border: #4a4a4a solid 0.5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2ea423;
+  border-radius: 10px;
 }

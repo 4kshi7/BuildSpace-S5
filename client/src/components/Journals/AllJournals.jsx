@@ -4,6 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { Nav2 } from "../Navbar/Nav2";
 import { Loading } from "../Loader/Loading";
+import ReactQuill from "react-quill";
 
 const AllJournals = () => {
   const [journals, setJournals] = useState([]);
@@ -32,9 +33,9 @@ const AllJournals = () => {
   }
 
   return (
-    <>
+    <div className="min-h-screen bg-gradient-to-br from-customGreen to-customBlack text-white ">
+      <Nav2/>
       <motion.div className="min-h-screen bg-gradient-to-br from-customGreen to-customBlack text-white p-4 md:p-8">
-        <Nav2 />
         <h1 className="text-3xl font-bold mb-8 text-center">My Journals</h1>
         {journals.length === 0 ? (
           <p className="text-center">No journals found. Start writing!</p>
@@ -58,7 +59,7 @@ const AllJournals = () => {
           </Link>
         </motion.div>
       </motion.div>
-    </>
+    </div>
   );
 };
 
@@ -78,9 +79,24 @@ const JournalCard = ({ journal }) => {
           </span>
         </div>
         <h2 className="text-xl font-semibold mb-2">{journal.title}</h2>
-        <p className="text-sm text-gray-300 line-clamp-3">{journal.content}</p>
+        <p className="text-sm text-gray-300 line-clamp-3">
+          {getPlainTextFromHTML(journal.content)}
+        </p>
       </Link>
     </motion.div>
+  );
+};
+
+export const getPlainTextFromHTML = (html) => {
+  return html.replace(
+    /<(\w+)\s*[^>]*>|<\/(\w+)\s*>|<(\w+)\s*\/>/gi,
+    function (match, p1, p2) {
+      if (p2 === p1 && p2 !== "br") {
+        return match.startsWith("</") ? " " : "";
+      } else {
+        return match.startsWith("</") ? " " : p1 === "br" ? "" : "";
+      }
+    }
   );
 };
 

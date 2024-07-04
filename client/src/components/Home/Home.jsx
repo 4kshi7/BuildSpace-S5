@@ -27,7 +27,7 @@ const Home = () => {
       title: "Community", 
       icon: "👥", 
       description: "Connect with like-minded individuals for support and growth.",
-      link: "/community"
+      link: "/posts"
     },
     { 
       title: "Music", 
@@ -58,7 +58,7 @@ const Home = () => {
             <span className="italic font-semibold">Lotus</span>Focus
           </h1>
         </motion.div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {cards.map((card, index) => (
             <Card 
               key={index} 
@@ -128,7 +128,7 @@ const Card = ({ title, icon, index, description, link }) => {
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.3 * index, duration: 0.3 }}
-          className="text-sm text-gray-300 mb-4"
+          className="text-xs md:text-sm text-gray-300 mb-4"
         >
           {description}
         </motion.p>
@@ -143,7 +143,7 @@ const Card = ({ title, icon, index, description, link }) => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="w-full bg-[#0b4334] text-[#fff] py-2 rounded-full text-sm font-semibold hover:bg-[#4BC0A0] transition-colors duration-300"
+            className="w-full bg-[#0b4334] text-[#fff] py-2 rounded-full text-xs md:text-sm font-semibold hover:bg-[#4BC0A0] transition-colors duration-300"
           >
             Explore {title}
           </motion.button>

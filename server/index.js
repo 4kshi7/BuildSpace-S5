@@ -14,8 +14,8 @@ const PORT = process.env.PORT || 5000;
 
 // CORS configuration
 const corsOptions = {
-  origin: 'http://localhost:5173', // your frontend's origin
-  credentials: true, // to allow credentials (cookies, authorization headers, etc.)
+  origin: 'http://localhost:5173' || process.env.FRONTEND, // frontend's origin
+  credentials: true, 
 };
 
 // Middleware

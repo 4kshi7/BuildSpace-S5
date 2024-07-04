@@ -80,13 +80,18 @@ export const deletePost = async (req, res) => {
     const { id } = req.params;
     const userId = req.userId;
 
+    const user = await prisma.user.findUnique({ where: { id: userId } });
     const post = await prisma.post.findUnique({ where: { id } });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
 
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
     }
 
-    if (post.userId !== userId) {
+    if (post.userId !== userId && user.role != "admin") {
       return res
         .status(403)
         .json({ error: "Not authorized to delete this post" });
@@ -123,7 +128,7 @@ export const updateBlog = async (req, res) => {
       data: {
         title,
         content,
-        imgUrl,
+        imgUrl: default_img || imgUrl,
       },
     });
 

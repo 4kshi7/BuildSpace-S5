@@ -21,7 +21,7 @@ const Home = () => {
       title: "Journal", 
       icon: "📓", 
       description: "Track your thoughts and emotions with our digital journal.",
-      link: "/journal"
+      link: "/journals"
     },
     { 
       title: "Community", 

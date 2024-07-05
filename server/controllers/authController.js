@@ -37,7 +37,7 @@ const updateSchema = zod.object({
 const cookieConfig = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
-  sameSite: "strict", // Helps prevent CSRF attacks
+  sameSite: "lax", // Helps prevent CSRF attacks
   maxAge: 24 * 60 * 60 * 1000, // 24 hours
 };
 

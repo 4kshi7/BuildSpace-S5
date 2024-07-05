@@ -10,17 +10,16 @@ In today's fast-paced world, people often struggle with stress, burnout, and fin
 
 ### Current Features
 
-1. **User Authentication (JWT Cookie Based)**: Secure user authentication using Cookie based & JSON Web Tokens (JWT) to ensure privacy and data protection.
+1. **User Authentication (JWT Cookie Based)**: Secure user by JWT Cookie based authentication to ensure privacy and data protection.
 2. **Bcrypt Password Encryption**: User passwords are securely encrypted using the bcrypt algorithm, providing an additional layer of security.
 3. **Community Blogs**: A platform for users to share their experiences, discoveries, and insights related to technology and personal growth.
-3. **Therapy AI Chatbot**: An AI-powered chatbot that provides on-demand therapy and mental health support.
+4. **Therapy AI Chatbot**: An AI-powered chatbot that provides on-demand therapy and mental health support.
+5. **Relaxation Lofi Music**: A library of relaxing lofi music to help users unwind and reduce stress.
+6. **Journaling**: A personal journaling feature for users to document their thoughts, experiences, and reflections.
 
 ### Planned Features for now
-
-1. **Relaxation Lofi Music**: A library of relaxing lofi music to help users unwind and reduce stress.
-2. **Journaling**: A personal journaling feature for users to document their thoughts, experiences, and reflections.
-3. **Mental Health Resources**: Access to various mental health resources, such as meditation guides, mindfulness exercises, and stress management techniques.
-4. **Physical Health Planner**: Personalized diet, exercise, and schedule recommendations based on users' existing routines.
+1. **Mental Health Resources**: Access to various mental health resources, such as meditation guides, mindfulness exercises, and stress management techniques.
+2. **Physical Health Planner**: Personalized diet, exercise, and schedule recommendations based on users' existing routines.
 
 ## Future Roadmap
 

@@ -33,7 +33,7 @@ export const getJournals = async (req, res) => {
           },
         },
       },
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: "asc" },
     });
     res.status(200).json(journals);
   } catch (error) {

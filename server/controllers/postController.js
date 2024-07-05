@@ -1,20 +1,37 @@
 import { PrismaClient } from "@prisma/client";
+import axios from "axios"
 const prisma = new PrismaClient();
 
-const default_img =
-  "https://66.media.tumblr.com/307fa320611fc38d9aec299716535d12/tumblr_ov3wxpXUjL1rn5gv3o1_500.gif";
+const GIPHY_API_KEY = process.env.GIPHY_API_KEY;
+
+const getRandomAnimeGif = async () => {
+  try {
+    const response = await axios.get("https://api.giphy.com/v1/gifs/random", {
+      params: {
+        api_key: GIPHY_API_KEY,
+        tag: "anime aesthetic+vaporwave",
+        rating: "pg-13",
+      },
+    });
+    return response.data.data.images.original.url;
+  } catch (error) {
+    return "https://picsum.photos/300/300?random"; // Fallback image
+  }
+};
 
 export const publishPost = async (req, res) => {
   try {
-    const { title, content, imgUrl } = req.body;
+    const { title, content } = req.body;
     const userId = req.userId;
+
+    const default_img = await getRandomAnimeGif();
 
     const newPost = await prisma.post.create({
       data: {
         userId,
         title,
         content,
-        imgUrl: default_img || imgUrl,
+        imgUrl: default_img,
       },
     });
 
@@ -123,12 +140,15 @@ export const updateBlog = async (req, res) => {
         .json({ error: "Not authorized to update this post" });
     }
 
+    const default_img = await getRandomAnimeGif();
+
+
     const updatedPost = await prisma.post.update({
       where: { id },
       data: {
         title,
         content,
-        imgUrl: default_img || imgUrl,
+        imgUrl: default_img,
       },
     });
 

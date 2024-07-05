@@ -11,9 +11,9 @@ const MiniMusicControl = () => {
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
       onClick={togglePlay}
-      className="bg-[#062719] text-[#5AD1B1] p-2 rounded-full"
+      className="bg-[#062719] text-[#5AD1B1] p-4 rounded-full"
     >
-      {isPlaying ? <FaPause /> : <FaPlay />}
+      {isPlaying ?  <FaPause /> : <FaPlay />}
     </motion.button>
   );
 };

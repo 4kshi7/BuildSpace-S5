@@ -39,10 +39,10 @@ const Home = () => {
       title: "Health", 
       icon: "💪", 
       description: "Access resources for physical and mental well-being.",
-      link: "/health"
+      link: "/health",
+      disabled: true
     },
   ];
-
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-customGreen to-customBlack text-white">
@@ -66,7 +66,8 @@ const Home = () => {
               icon={card.icon} 
               description={card.description}
               link={card.link}
-              index={index} 
+              index={index}
+              disabled={card.disabled || false} // Pass disabled prop
             />
           ))}
         </div>
@@ -91,7 +92,7 @@ const Home = () => {
         >
           <div className="bg-[#062719] h-40 sm:h-56 rounded-lg"></div>
         </motion.div> */}
-        <MusicPlayer />
+        {/* <MusicPlayer /> */}
       </div>
       <Footer />
     </div>
@@ -100,13 +101,15 @@ const Home = () => {
 
 export default Home;
 
-const Card = ({ title, icon, index, description, link }) => {
+const Card = ({ title, icon, index, description, link, disabled }) => {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: 0.1 * index, duration: 0.3 }}
-      className="bg-[#062719]/20 rounded-xl p-6 flex flex-col items-start justify-between aspect-[4/5] relative overflow-hidden group hover:bg-[#062719]/40 transition-colors duration-300"
+      className={`bg-[#062719]/20 rounded-xl p-6 flex flex-col items-start justify-between aspect-[4/5] relative overflow-hidden group hover:bg-[#062719]/40 transition-colors duration-300 ${
+        disabled ? "opacity-50 cursor-not-allowed" : ""
+      }`}
     >
       <motion.span
         initial={{ scale: 1 }}
@@ -143,9 +146,12 @@ const Card = ({ title, icon, index, description, link }) => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="w-full bg-[#0b4334] text-[#fff] py-2 rounded-full text-xs md:text-sm font-semibold hover:bg-[#4BC0A0] transition-colors duration-300"
+            className={`w-full bg-[#0b4334] text-[#fff] py-2 rounded-full text-xs md:text-sm font-semibold transition-colors duration-300 ${
+              disabled ? "bg-[#06241c] cursor-not-allowed" : "hover:bg-[#4BC0A0]"
+            }`}
+            disabled={disabled}
           >
-            Explore {title}
+            {disabled ? "Coming Soon" : `Explore ${title}`}
           </motion.button>
         </Link>
       </motion.div>

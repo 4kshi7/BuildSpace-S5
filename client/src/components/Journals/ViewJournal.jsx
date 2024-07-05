@@ -47,7 +47,7 @@ const ViewJournal = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-customGreen to-customBlack text-white ">
       <Nav2 />
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-3xl mx-auto p-4 md:p-8">
         <div className="mb-4 text-sm text-gray-400">
           <span>
             {journal.User.name} (@{journal.User.username})

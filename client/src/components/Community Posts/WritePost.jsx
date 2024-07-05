@@ -9,44 +9,23 @@ import { Nav2 } from "../Navbar/Nav2";
 const WritePost = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [imgUrl, setImgUrl] = useState("");
+  const [isLoadingGif, setIsLoadingGif] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (id) {
-      const fetchPost = async () => {
-        try {
-          const response = await axios.get(
-            `http://localhost:5000/api/v1/post/${id}`
-          );
-          setTitle(response.data.title);
-          setContent(response.data.content);
-          setImgUrl(response.data.imgUrl);
-        } catch (error) {
-          console.error("Error fetching post:", error);
-        }
-      };
-
-      fetchPost();
-    }
-  }, [id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const postData = { title, content };
       if (id) {
-        await axios.put(
-          `http://localhost:5000/api/v1/post/${id}`,
-          { title, content, imgUrl },
-          { withCredentials: true }
-        );
+        await axios.put(`http://localhost:5000/api/v1/post/${id}`, postData, {
+          withCredentials: true,
+        });
       } else {
-        await axios.post(
-          "http://localhost:5000/api/v1/post",
-          { title, content, imgUrl },
-          { withCredentials: true }
-        );
+        await axios.post("http://localhost:5000/api/v1/post", postData, {
+          withCredentials: true,
+        });
       }
       navigate("/posts");
     } catch (error) {
@@ -55,9 +34,9 @@ const WritePost = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-customGreen to-customBlack text-white ">
+    <div className="min-h-screen bg-gradient-to-br from-customGreen to-customBlack text-white">
       <Nav2 />
-      <div className=" p-4 md:p-8">
+      <div className="p-4 md:p-8">
         <h1 className="text-3xl font-bold mb-8 text-center">
           {id ? "Edit Post" : "Write New Post"}
         </h1>
@@ -70,13 +49,6 @@ const WritePost = () => {
             className="w-full bg-[#062719] rounded-lg p-2 mb-4 text-white"
             required
           />
-          <input
-            type="text"
-            value={imgUrl}
-            onChange={(e) => setImgUrl(e.target.value)}
-            placeholder="Image URL"
-            className="w-full bg-[#062719] rounded-lg p-2 mb-4 text-white"
-          />
           <ReactQuill
             theme="snow"
             value={content}
@@ -88,8 +60,9 @@ const WritePost = () => {
             whileTap={{ scale: 0.95 }}
             type="submit"
             className="bg-[#5AD1B1] text-black font-bold py-2 px-4 rounded-full"
+            disabled={isLoadingGif}
           >
-            {id ? "Update Post" : "Publish Post"}
+            {isLoadingGif ? "Loading..." : id ? "Update Post" : "Publish Post"}
           </motion.button>
         </form>
       </div>

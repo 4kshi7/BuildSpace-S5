@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
@@ -11,14 +11,13 @@ import MiniMusicControl from "../Music/MiniMusicControl";
 export const Nav2 = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isLoggedIn, isLoading } = useAuthCheck(); // Use the hook
-
   const navigate = useNavigate();
+  const menuRef = useRef(null);
 
   const handleLogout = async () => {
     try {
       await axios.post(
         "http://localhost:5000/api/v1/user/logout",
-        {},
         { withCredentials: true }
       );
       navigate("/login");
@@ -27,6 +26,7 @@ export const Nav2 = () => {
       console.error("Error logging out:", error);
     }
   };
+  
   const menuItems = [
     "Home",
     "Profile",
@@ -74,6 +74,19 @@ export const Nav2 = () => {
     setIsMenuOpen(false);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   if (isLoading) {
     return <Loading />;
   }
@@ -97,11 +110,12 @@ export const Nav2 = () => {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
+            ref={menuRef}
             initial="closed"
             animate="open"
             exit="closed"
             variants={menuVariants}
-            className="fixed top-0 right-0 h-full w-64 bg-[#062719]/60 backdrop-blur-lg shadow-lg z-40"
+            className="fixed top-0 right-0 h-full w-64 bg-[#062719]/60 backdrop-blur-xl shadow-lg z-40"
           >
             <div className="flex flex-col h-full justify-center items-center">
               {menuItems.map((item, i) => (

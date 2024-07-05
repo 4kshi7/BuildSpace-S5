@@ -6,57 +6,81 @@ const router = express.Router();
 const groq = new Groq(process.env.GROQ_API_KEY);
 
 // In-memory storage for chat histories
-const chatHistories = {};
+const chatHistories = new Map();
+
+// Maximum number of messages to store per user
+const MAX_MESSAGES = 5;
+
+// Cleanup interval in milliseconds (e.g., every 30 minutes)
+const CLEANUP_INTERVAL = 30 * 60 * 1000;
+
+// Function to cleanup inactive chats
+const cleanupInactiveChats = () => {
+  const now = Date.now();
+  for (const [userId, chatData] of chatHistories.entries()) {
+    if (now - chatData.lastActivity > CLEANUP_INTERVAL) {
+      chatHistories.delete(userId);
+    }
+  }
+};
+
+// Start the cleanup interval
+setInterval(cleanupInactiveChats, CLEANUP_INTERVAL);
 
 router.post("/chat", authMiddleware, async (req, res) => {
   try {
-    const userId = req.userId; // Ensure this is correctly set by authMiddleware
+    const userId = req.userId;
     const userInput = req.body.userInput;
     const systemMessage = `You are a helpful AI therapist answer short and precise.`;
 
-    // Initialize chat history for the user if it doesn't exist
-    if (!chatHistories[userId]) {
-      chatHistories[userId] = [{ role: "system", content: systemMessage }];
+    // Initialize or get chat history for the user
+    let chatData = chatHistories.get(userId);
+    if (!chatData) {
+      chatData = {
+        messages: [{ role: "system", content: systemMessage }],
+        lastActivity: Date.now()
+      };
+      chatHistories.set(userId, chatData);
     }
 
-    // Add user input to history
-    chatHistories[userId].push({ role: "user", content: userInput });
+    // Update last activity
+    chatData.lastActivity = Date.now();
 
-    // Create the message array for the API request
-    const messages = chatHistories[userId];
+    // Add user input to history
+    chatData.messages.push({ role: "user", content: userInput });
+
+    // Trim messages if exceeding MAX_MESSAGES
+    if (chatData.messages.length > MAX_MESSAGES) {
+      chatData.messages = chatData.messages.slice(-MAX_MESSAGES);
+    }
 
     const { data: chatCompletion } = await groq.chat.completions
       .create({
-        messages: messages,
+        messages: chatData.messages,
         model: "llama3-8b-8192",
         temperature: 0.7,
         max_tokens: 500,
       })
       .withResponse();
 
-    if (
-      chatCompletion &&
-      chatCompletion.choices &&
-      chatCompletion.choices.length > 0
-    ) {
+    if (chatCompletion?.choices?.[0]?.message?.content) {
       const responseText = chatCompletion.choices[0].message.content;
 
       // Add assistant response to history
-      chatHistories[userId].push({ role: "assistant", content: responseText });
-      // console.log(chatHistories[userId])
+      chatData.messages.push({ role: "assistant", content: responseText });
+
+      // Trim messages again if needed
+      if (chatData.messages.length > MAX_MESSAGES) {
+        chatData.messages = chatData.messages.slice(-MAX_MESSAGES);
+      }
 
       res.json({ message: responseText });
     } else {
-      console.error("Unexpected API response:", chatCompletion);
-      res
-        .status(500)
-        .json({ error: "An error occurred while processing the request" });
+      throw new Error("Unexpected API response");
     }
   } catch (error) {
     console.error("Error:", error);
-    res
-      .status(500)
-      .json({ error: "An error occurred while processing the request"});
+    res.status(500).json({ error: "An error occurred while processing the request" });
   }
 });
 

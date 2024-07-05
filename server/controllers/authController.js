@@ -27,7 +27,6 @@ const signinBody = zod.object({
   username: zod.string(),
   password: zod.string(),
 });
-
 const updateSchema = zod.object({
   name: zod.string().max(25).optional(),
   username: zod.string().min(4).max(20).optional(),
@@ -37,7 +36,7 @@ const updateSchema = zod.object({
 const cookieConfig = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
-  sameSite: "lax", // Helps prevent CSRF attacks
+  sameSite: "none", 
   maxAge: 24 * 60 * 60 * 1000, // 24 hours
 };
 

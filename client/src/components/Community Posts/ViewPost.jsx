@@ -14,7 +14,7 @@ const ViewPost = () => {
     const fetchPost = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/v1/post/${id}`,
+          `${import.meta.env.VITE_BACKEND_URL}/api/v1/post/${id}`,
           { withCredentials: true }
         );
         setPost(response.data);
@@ -29,7 +29,7 @@ const ViewPost = () => {
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this post?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/v1/post/${id}`, {
+        await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/v1/post/${id}`, {
           withCredentials: true,
         });
         navigate("/posts");

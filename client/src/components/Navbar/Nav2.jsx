@@ -17,7 +17,7 @@ export const Nav2 = () => {
   const handleLogout = async () => {
     try {
       await axios.post(
-        "http://localhost:5000/api/v1/user/logout",
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/user/logout`,
         { withCredentials: true }
       );
       navigate("/login");
@@ -26,7 +26,7 @@ export const Nav2 = () => {
       console.error("Error logging out:", error);
     }
   };
-  
+
   const menuItems = [
     "Home",
     "Profile",

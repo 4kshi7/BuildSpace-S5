@@ -15,7 +15,7 @@ const ViewJournal = () => {
     const fetchJournal = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/v1/journal/${id}`,
+          `${import.meta.env.VITE_BACKEND_URL}/api/v1/journal/${id}`,
           { withCredentials: true }
         );
         setJournal(response.data);
@@ -30,7 +30,7 @@ const ViewJournal = () => {
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this journal?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/v1/journal/${id}`, {
+        await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/v1/journal/${id}`, {
           withCredentials: true,
         });
         navigate("/journals");

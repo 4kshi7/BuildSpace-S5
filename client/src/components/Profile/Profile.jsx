@@ -23,7 +23,7 @@ const Profile = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        "http://localhost:5000/api/v1/user/info",
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/user/info`,
         { withCredentials: true }
       );
       setUser(response.data);
@@ -42,7 +42,7 @@ const Profile = () => {
   const handleSave = async () => {
     try {
       const response = await axios.put(
-        "http://localhost:5000/api/v1/user/",
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/user/`,
         {
           name: editedUser.name,
           username: editedUser.username,

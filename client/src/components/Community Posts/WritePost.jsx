@@ -19,11 +19,11 @@ const WritePost = () => {
     try {
       const postData = { title, content };
       if (id) {
-        await axios.put(`http://localhost:5000/api/v1/post/${id}`, postData, {
+        await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/v1/post/${id}`, postData, {
           withCredentials: true,
         });
       } else {
-        await axios.post("http://localhost:5000/api/v1/post", postData, {
+        await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/post`, postData, {
           withCredentials: true,
         });
       }

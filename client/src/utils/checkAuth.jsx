@@ -11,7 +11,7 @@ const useAuthCheck = () => {
     const checkLoginStatus = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/v1/user/check-auth",
+          `${import.meta.env.VITE_BACKEND_URL}/api/v1/user/check-auth`,
           { withCredentials: true }
         );
         setIsLoggedIn(response.data.isLoggedIn);

@@ -1,37 +1,43 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const LoginForm = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-    
+    setError("");
+
     try {
-      const response = await axios.post('http://localhost:5000/api/v1/user/signin', {
-        username,
-        password
-      }, {
-        withCredentials: true
-      });
-      
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/user/signin`,
+        {
+          username,
+          password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+
       if (response.data.message === "Logged in successfully") {
-        navigate('/'); // Redirect to dashboard or home page
+        navigate("/"); // Redirect to dashboard or home page
       }
     } catch (error) {
-      setError(error.response?.data?.message || 'An error occurred. Please try again.');
+      setError(
+        error.response?.data?.message || "An error occurred. Please try again."
+      );
     }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-customGreen to-customBlack flex items-center justify-center px-4">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -40,16 +46,21 @@ const LoginForm = () => {
         <h2 className="text-4xl font-bold text-center text-[#5AD1B1] mb-8">
           <span className="italic">Lotus</span>Focus
         </h2>
-        <form className="bg-[#062719]/90 rounded-lg p-8 shadow-lg" onSubmit={handleSubmit}>
+        <form
+          className="bg-[#062719]/90 rounded-lg p-8 shadow-lg"
+          onSubmit={handleSubmit}
+        >
           {error && <p className="text-red-500 mb-4">{error}</p>}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2, duration: 0.5 }}
           >
-            <label className="block text-[#5AD1B1] mb-2" htmlFor="username">Username</label>
-            <input 
-              type="text" 
+            <label className="block text-[#5AD1B1] mb-2" htmlFor="username">
+              Username
+            </label>
+            <input
+              type="text"
               id="username"
               className="w-full bg-[#041811] text-white rounded px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-[#5AD1B1]"
               placeholder="Enter your username"
@@ -62,9 +73,11 @@ const LoginForm = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3, duration: 0.5 }}
           >
-            <label className="block text-[#5AD1B1] mb-2" htmlFor="password">Password</label>
-            <input 
-              type="password" 
+            <label className="block text-[#5AD1B1] mb-2" htmlFor="password">
+              Password
+            </label>
+            <input
+              type="password"
               id="password"
               className="w-full bg-[#041811] text-white rounded px-3 py-2 mb-6 focus:outline-none focus:ring-2 focus:ring-[#5AD1B1]"
               placeholder="Enter your password"
@@ -82,7 +95,10 @@ const LoginForm = () => {
           </motion.button>
         </form>
         <p className="text-center text-[#5AD1B1] mt-4">
-          Don't have an account? <Link to="/signup" className="underline hover:text-white">Sign up</Link>
+          Don't have an account?{" "}
+          <Link to="/signup" className="underline hover:text-white">
+            Sign up
+          </Link>
         </p>
       </motion.div>
     </div>

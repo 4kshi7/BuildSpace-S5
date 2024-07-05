@@ -18,7 +18,7 @@ const WriteJournal = () => {
       const fetchJournal = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:5000/api/v1/journal/${id}`
+            `${import.meta.env.VITE_BACKEND_URL}/api/v1/journal/${id}`
           );
           setTitle(response.data.title);
           setContent(response.data.content);
@@ -36,13 +36,13 @@ const WriteJournal = () => {
     try {
       if (id) {
         await axios.put(
-          `http://localhost:5000/api/v1/journal/${id}`,
+          `${import.meta.env.VITE_BACKEND_URL}/api/v1/journal/${id}`,
           { withCredentials: true },
           { title, content }
         );
       } else {
         await axios.post(
-          "http://localhost:5000/api/v1/journal",
+          `${import.meta.env.VITE_BACKEND_URL}/api/v1/journal`,
           { title, content },
           { withCredentials: true }
         );

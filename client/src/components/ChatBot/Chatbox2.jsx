@@ -12,11 +12,6 @@ const ChatBot2 = () => {
   const [chatClosed, setChatClosed] = useState(false);
   const messagesEndRef = useRef(null);
 
-  const axiosInstance = axios.create({
-    baseURL: "http://localhost:5000", // Your backend base URL
-    withCredentials: true, // This is important for sending cookies
-  });
-
   // Function to send bot messages
   const sendBotMessage = (text) => {
     setMessages((prevMessages) => [...prevMessages, { text, user: "bot" }]);
@@ -64,9 +59,15 @@ const ChatBot2 = () => {
       setLoading(true);
 
       try {
-        const response = await axiosInstance.post("/api/v1/bot/chat", {
-          userInput: input,
-        });
+        const response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/api/v1/bot/chat`,
+          {
+            userInput: input,
+          },
+          {
+            withCredentials: true,
+          }
+        );
         setMessages((prevMessages) => [
           ...prevMessages,
           { text: response.data.message, user: "bot" },

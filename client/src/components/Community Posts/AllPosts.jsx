@@ -14,7 +14,7 @@ const AllPosts = () => {
     const fetchPosts = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/v1/post/bulk",
+          `${import.meta.env.VITE_BACKEND_URL}/api/v1/post/bulk`,
           { withCredentials: true }
         );
         setPosts(response.data);
@@ -66,16 +66,16 @@ const PostCard = ({ post }) => {
       className="bg-[#062719] rounded-lg p-4 shadow-lg"
     >
       <Link to={`/post/${post.id}`}>
-        <div className="mb-2 text-sm text-gray-400">
-          <span>
+        <div className="mb-2 text-sm text-gray-400 flex justify-between">
+          <div>
             
-            {post.User.name} (@{post.User.username})
+            <span className="font-semibold text-white mr-1">{post.User.name}</span> @{post.User.username}
             {post.User.role === 'admin' && (
               <span className="bg-red-600 text-white text-xs font-bold mr-2 px-2 py-1 rounded ml-2">
                 ADMIN
               </span>
             )}
-          </span>
+          </div>
           <span className="float-right">
             {new Date(post.publishedDate).toLocaleDateString()}
           </span>

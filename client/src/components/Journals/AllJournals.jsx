@@ -14,7 +14,7 @@ const AllJournals = () => {
     const fetchJournals = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/v1/journal/bulk",
+          `${import.meta.env.VITE_BACKEND_URL}/api/v1/journal/bulk`,
           { withCredentials: true }
         );
         setJournals(response.data);

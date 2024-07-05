@@ -52,8 +52,12 @@ export const getAllPosts = async (req, res) => {
             name: true,
             username: true,
             img: true,
+            role: true,
           },
         },
+      },
+      orderBy: {
+        publishedDate: 'asc',
       },
     });
 

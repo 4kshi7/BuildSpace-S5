@@ -53,7 +53,7 @@ const WritePost = () => {
             theme="snow"
             value={content}
             onChange={setContent}
-            className="bg-[#062719] rounded-lg mb-4 text-white h-64"
+            className="bg-[#062719] rounded-lg mb-4 text-white h-fit"
           />
           <motion.button
             whileHover={{ scale: 1.05 }}

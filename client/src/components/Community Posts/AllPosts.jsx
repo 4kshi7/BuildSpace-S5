@@ -68,7 +68,13 @@ const PostCard = ({ post }) => {
       <Link to={`/post/${post.id}`}>
         <div className="mb-2 text-sm text-gray-400">
           <span>
+            
             {post.User.name} (@{post.User.username})
+            {post.User.role === 'admin' && (
+              <span className="bg-red-600 text-white text-xs font-bold mr-2 px-2 py-1 rounded ml-2">
+                ADMIN
+              </span>
+            )}
           </span>
           <span className="float-right">
             {new Date(post.publishedDate).toLocaleDateString()}

@@ -15,8 +15,6 @@ model User {
   name      String
   img       String?
   role      Role      @default(user)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
   posts     Post[]
   Journal   Journal[]
 }

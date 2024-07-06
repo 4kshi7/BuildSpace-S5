@@ -58,7 +58,7 @@ const Home = () => {
             <span className="italic font-semibold">Lotus</span>Focus
           </h1>
         </motion.div>
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {cards.map((card, index) => (
             <Card 
               key={index} 

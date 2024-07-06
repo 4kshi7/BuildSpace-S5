@@ -2,10 +2,17 @@ import { Groq } from "groq-sdk";
 import express from "express";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 
-const router = express.Router();
-const groq = new Groq(process.env.GROQ_API_KEY);
 
-// In-memory storage for chat histories
+const router = express.Router();
+
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const groq = new Groq({
+  apiKey: process.env.GROQ_KEY
+});
+
 const chatHistories = new Map();
 
 // Maximum number of messages to store per user

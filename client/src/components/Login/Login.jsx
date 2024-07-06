@@ -12,6 +12,7 @@ const LoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    axios.defaults.withCredentials = true;
 
     try {
       const response = await axios.post(

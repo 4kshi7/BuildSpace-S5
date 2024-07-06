@@ -126,11 +126,14 @@ export const signin = async (req, res) => {
     }
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
 
+    // Set the cookie as before
     res.cookie('token', token, cookieConfig);
 
-    console.log('Login successful. Cookie set:', cookieConfig);
-
-    res.json({ message: "Logged in successfully" });
+    // Also send the token in the response body
+    res.json({ 
+      message: "Logged in successfully",
+      token: token  // Include the token in the response
+    });
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({
@@ -142,17 +145,23 @@ export const signin = async (req, res) => {
 
 export const logout = (req, res) => {
   res.clearCookie("token");
-  res.json({ message: "Logged out successfully" });
+  res.json({ message: "Logged out successfully", clearLocalStorage: true });
 };
+
+// On the client-side:
+
 export const checkauth = (req, res) => {
-  const token = req.cookies.token;
+  const cookieToken = req.cookies.token;
+  const headerToken = req.headers.authorization?.split(' ')[1];
+  const token = cookieToken || headerToken;
+
   console.log('Checking auth. Token:', token ? 'exists' : 'does not exist');
   
   if (token) {
     try {
-      jwt.verify(token, process.env.JWT_SECRET);
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
       console.log('Token verified successfully');
-      res.json({ isLoggedIn: true });
+      res.json({ isLoggedIn: true, userId: decoded.userId });
     } catch (error) {
       console.error('Token verification failed:', error);
       res.clearCookie('token');

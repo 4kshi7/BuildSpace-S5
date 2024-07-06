@@ -10,9 +10,15 @@ const useAuthCheck = () => {
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
+        const token = localStorage.getItem('authToken');
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
         const response = await axios.get(
           `${import.meta.env.VITE_BACKEND_URL}/api/v1/user/check-auth`,
-          { withCredentials: true }
+          { 
+            withCredentials: true,
+            headers
+          }
         );
         setIsLoggedIn(response.data.isLoggedIn);
         if (!response.data.isLoggedIn) {

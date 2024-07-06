@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+// import axios from "axios";
+import axios from '../../utils/axiosConfig';
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
@@ -27,6 +28,9 @@ const LoginForm = () => {
       );
 
       if (response.data.message === "Logged in successfully") {
+        if (response.data.token) {
+          localStorage.setItem('authToken', response.data.token);
+        }
         navigate("/"); // Redirect to dashboard or home page
       }
     } catch (error) {

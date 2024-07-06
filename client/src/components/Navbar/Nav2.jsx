@@ -3,23 +3,22 @@ import { motion, AnimatePresence } from "framer-motion";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"; // Make sure to import axios
+import axios from "axios";
 import useAuthCheck from "../../utils/checkAuth";
 import { Loading } from "../Loader/Loading";
 import MiniMusicControl from "../Music/MiniMusicControl";
 
 export const Nav2 = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { isLoggedIn, isLoading } = useAuthCheck(); // Use the hook
-  const navigate = useNavigate();
-  const menuRef = useRef(null);
+  // ... other states and refs remain the same
 
   const handleLogout = async () => {
     try {
       await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/v1/user/logout`,
+        {},
         { withCredentials: true }
       );
+      localStorage.removeItem('authToken');
       navigate("/login");
       window.location.reload(); // Force a reload to update auth state
     } catch (error) {

@@ -33,11 +33,16 @@ const updateSchema = zod.object({
   img: zod.string().url().optional(),
 });
 
+// const cookieConfig = {
+//   httpsOnly: true,
+//   secure: process.env.NODE_ENV === "production",
+//   sameSite: "none", 
+//   maxAge: 24 * 60 * 60 * 1000, // 24 hours
+// };
 const cookieConfig = {
   httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
-  sameSite: "none",
-  secure:"true", 
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
   maxAge: 24 * 60 * 60 * 1000, // 24 hours
 };
 
@@ -119,16 +124,18 @@ export const signin = async (req, res) => {
         message: "Invalid username or password",
       });
     }
-
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
 
-    res.cookie("token", token, cookieConfig);
+    res.cookie('token', token, cookieConfig);
+
+    console.log('Login successful. Cookie set:', cookieConfig);
 
     res.json({ message: "Logged in successfully" });
   } catch (error) {
-    console.error(error);
+    console.error('Login error:', error);
     res.status(500).json({
       error: "Internal server error",
+      details: error.message
     });
   }
 };
@@ -137,21 +144,25 @@ export const logout = (req, res) => {
   res.clearCookie("token");
   res.json({ message: "Logged out successfully" });
 };
-
 export const checkauth = (req, res) => {
   const token = req.cookies.token;
+  console.log('Checking auth. Token:', token ? 'exists' : 'does not exist');
+  
   if (token) {
     try {
       jwt.verify(token, process.env.JWT_SECRET);
+      console.log('Token verified successfully');
       res.json({ isLoggedIn: true });
     } catch (error) {
+      console.error('Token verification failed:', error);
+      res.clearCookie('token');
       res.json({ isLoggedIn: false });
     }
   } else {
+    console.log('No token found');
     res.json({ isLoggedIn: false });
   }
 };
-
 export const update = async (req, res) => {
   const userId = req.userId;
 

@@ -13,13 +13,20 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // CORS configuration
-const corsOptions = {
-  origin: [process.env.FRONTEND, process.env.FRONTEND_LOCAL],
-  credentials: true,
-};
+// const corsOptions = {
+//   origin: [process.env.FRONTEND, process.env.FRONTEND_LOCAL],
+//   credentials: true,
+// };
+
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production' 
+    ? process.env.FRONTEND 
+    : process.env.FRONTEND_LOCAL,
+  credentials: true
+}));
 
 // Middleware
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 app.use(cookieParser())
 app.use(express.json());
 

@@ -176,29 +176,36 @@ const MusicPlayer = () => {
 
 const Footer = () => {
   return (
-    <footer className=" py-6 text-xs text-gray-400">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col sm:flex-row justify-between space-y-4 sm:space-y-0">
-          <div>
-            <p className="font-semibold mb-1">Our Socials:</p>
-            <p>@akshit.fts</p>
-            <p>@h4rshitr</p>
-            <p>@tarun185</p>
-          </div>
-          <div>
-            <p className="font-semibold mb-1">Created By</p>
-            <p>Akshit</p>
-            <p>Harshit</p>
-            <p>Tarun</p>
-          </div>
-          <div>
-            <p className="font-semibold mb-1">Presenting</p>
-            <p>LotusFocus</p>
-            <p>2024</p>
-            <p>All rights reserved</p>
-          </div>
+    <footer className="py-6 text-xs text-gray-400">
+    <div className="container mx-auto px-4">
+      <h1 className="text-[#5AD1B1] font-bold text-48 sm:text-xl mb-2">
+        <span className="italic font-semibold">Lotus</span>Focus
+      </h1>
+      <div className="flex flex-col sm:flex-row justify-between space-y-4 sm:space-y-0">
+        <div>
+          <p className="font-semibold mb-1">Our Socials:</p>
+          <p><a href="https://www.instagram.com/akshit.ffs/" target="_blank" rel="noopener noreferrer">akshit.ffs</a></p>
+          <p><a href="https://www.instagram.com/h4rshitfr/" target="_blank" rel="noopener noreferrer">h4rshitfr</a></p>
+          <p><a href="https://www.instagram.com/tarun185/" target="_blank" rel="noopener noreferrer">tarun185</a></p>
+        </div>
+        <div>
+          <p className="font-semibold mb-1">Created By</p>
+          <p>Akshit</p>
+          <p>Harshit</p>
+          <p>Tarun</p>
+        </div>
+        <div>
+          <p className="font-semibold mb-1">Contact us</p>
+          <p>akshit@gmail.com</p>
+          <p>harshit@gmail.com</p>
+          <p>tarun@gmail.com</p>
         </div>
       </div>
-    </footer>
+      <p className="text-center mt-12">© 2024 LotusFocus. All rights reserved.</p>
+    </div>
+  </footer>
+  
   );
 };
+
+

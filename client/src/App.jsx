@@ -15,11 +15,12 @@ import AllPosts from "./components/Community Posts/AllPosts";
 import MusicPlayer from "./components/Music/MusicPlayer";
 import AudioPlayer from "./components/Music/AudioPlayer";
 
+
 function App() {
   return (
     <>
       <Router>
-        <div className="App cursor-none">
+        <div className="App cursor-none ">
           <AudioPlayer/>
           <Cursor />
           <Routes>
@@ -38,6 +39,7 @@ function App() {
             <Route path="/edit-journal/:id" element={<WriteJournal />} />
             <Route path="/journal/:id" element={<ViewJournal />} />
             <Route path="/music" element={<MusicPlayer />} />
+         
           </Routes>
         </div>
       </Router>

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import usePasswordToggle from '../../hooks/usePasswordToggle';
+import "../../style/commonstyle.css"
 
 const RegisterForm = () => {
   const [name, setName] = useState('');

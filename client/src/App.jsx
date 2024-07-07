@@ -5,7 +5,7 @@ import Cursor from "./components/Cursor/Cursor";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ChatBot2 from "./components/ChatBot/Chatbox2";
 import Profile from "./components/Profile/Profile";
-import PomodoroTimer from "./components/Pomodoro/Pomodoro";
+import PomodoroTimer from "./components/PomodoroTimer/PromodoroTimer";
 import WriteJournal from "./components/Journals/WriteJournal";
 import ViewJournal from "./components/Journals/ViewJournal";
 import AllJournals from "./components/Journals/AllJournals";
@@ -20,7 +20,7 @@ function App() {
   return (
     <>
       <Router>
-        <div className="App cursor-none ">
+      <div className="App cursor-none md:cursor-none">
           <AudioPlayer/>
           <Cursor />
           <Routes>

@@ -177,7 +177,7 @@ const MusicPlayer = () => {
 const Footer = () => {
   return (
     <footer className="py-6 text-xs text-gray-400">
-    <div className="container mx-auto px-4">
+    <div className="container mx-auto  px-2 md:px-6 lg:px-6 ">
       <h1 className="text-[#5AD1B1] font-bold text-48 sm:text-xl mb-2">
         <span className="italic font-semibold">Lotus</span>Focus
       </h1>

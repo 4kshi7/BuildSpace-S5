@@ -1,16 +1,18 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
- // Ensure to create and import a CSS file for custom cursor styles
 
 const Cursor = () => {
     const cursorRef = useRef(null);
     const followerRef = useRef(null);
+    const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1024);
 
     useEffect(() => {
         const cursor = cursorRef.current;
         const follower = followerRef.current;
 
         const onMouseMove = (e) => {
+            if (!isLargeScreen) return;
+            
             gsap.to(cursor, {
                 duration: 0.2,
                 left: e.clientX,
@@ -23,12 +25,20 @@ const Cursor = () => {
             });
         };
 
+        const onResize = () => {
+            setIsLargeScreen(window.innerWidth >= 1024);
+        };
+
         window.addEventListener('mousemove', onMouseMove);
+        window.addEventListener('resize', onResize);
 
         return () => {
             window.removeEventListener('mousemove', onMouseMove);
+            window.removeEventListener('resize', onResize);
         };
-    }, []);
+    }, [isLargeScreen]);
+
+    if (!isLargeScreen) return null;
 
     return (
         <>

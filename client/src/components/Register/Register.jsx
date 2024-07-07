@@ -46,14 +46,14 @@ const RegisterForm = () => {
         <h2 className="text-4xl font-bold text-center text-[#5AD1B1] mb-8">
           Join <span className="italic">Lotus</span>Focus
         </h2>
-        <form className="bg-[#062719]/20 rounded-lg p-8 shadow-lg" onSubmit={handleSubmit}>
+        <form className="bg-[#062719]/90 rounded-lg p-8 shadow-lg" onSubmit={handleSubmit}>
           {error && <p className="text-red-500 mb-4">{error}</p>}
           <motion.div
             initial={{ opacity: 0, x: -20 }} 
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2, duration: 0.5 }}
           >
-            <label className="block text-[#5AD1B1] mb-2" htmlFor="name">Full Name</label>
+            <label className="block text-[#5AD1B1] mb-2" htmlFor="name">Name</label>
             <input 
               type="text" 
               id="name"
@@ -73,7 +73,7 @@ const RegisterForm = () => {
               type="email" 
               id="mail"
               className="w-full bg-[#041811] text-white rounded px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-[#5AD1B1]"
-              placeholder="Enter your Email Address"
+              placeholder="Enter your email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />

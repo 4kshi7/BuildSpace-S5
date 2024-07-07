@@ -1,17 +1,20 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import usePasswordToggle from '../../hooks/usePasswordToggle';
+import "../../style/commonstyle.css"
 
 const LoginForm = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [passwordType, toggleIcon] = usePasswordToggle();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setError('');
     axios.defaults.withCredentials = true;
 
     try {
@@ -26,12 +29,12 @@ const LoginForm = () => {
         }
       );
 
-      if (response.data.message === "Logged in successfully") {
-        navigate("/"); // Redirect to dashboard or home page
+      if (response.data.message === 'Logged in successfully') {
+        navigate('/'); // Redirect to dashboard or home page
       }
     } catch (error) {
       setError(
-        error.response?.data?.message || "An error occurred. Please try again."
+        error.response?.data?.message || 'An error occurred. Please try again.'
       );
     }
   };
@@ -77,14 +80,19 @@ const LoginForm = () => {
             <label className="block text-[#5AD1B1] mb-2" htmlFor="password">
               Password
             </label>
-            <input
-              type="password"
-              id="password"
-              className="w-full bg-[#041811] text-white rounded px-3 py-2 mb-6 focus:outline-none focus:ring-2 focus:ring-[#5AD1B1]"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <div className="relative">
+              <input
+                type={passwordType}
+                id="password"
+                className="w-full bg-[#041811] text-white rounded px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-[#5AD1B1]"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <span className="absolute right-3 top-3 cursor-pointer" style={{ color: '#5AD1B1' }}>
+                {toggleIcon}
+              </span>
+            </div>
           </motion.div>
           <motion.button
             type="submit"
@@ -96,7 +104,7 @@ const LoginForm = () => {
           </motion.button>
         </form>
         <p className="text-center text-[#5AD1B1] mt-4">
-          Don't have an account?{" "}
+          Don't have an account?{' '}
           <Link to="/signup" className="underline hover:text-white">
             Sign up
           </Link>

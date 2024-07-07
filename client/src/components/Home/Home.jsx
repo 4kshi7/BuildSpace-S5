@@ -2,6 +2,8 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Nav2 } from "../Navbar/Nav2";
 import { Link } from "react-router-dom";
+import Footer from "../Footer/Footer";
+import Card from "../Card/Card";
 
 const Home = () => {
   const cards = [
@@ -71,28 +73,6 @@ const Home = () => {
             />
           ))}
         </div>
-        {/* <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.5 }}
-          className="mb-12"
-        >
-          <p className="text-xs sm:text-sm text-gray-400 text-center max-w-3xl mx-auto">
-            Lorem ipsum dolor sit amet consectetur. Eget nibh aliquet mattis in quam rhoncus porta diam
-            sagittis. Sit sed molestie viverra ut. Et feugiat tempor nunc suspendisse neque lacus nibh
-            egestas tempus. Feugiat tincidunt vitae bibendum ipsum amet laoreet vel. Rhoncus feugiat
-            accumsan aenean quisque.
-          </p>
-        </motion.div> */}
-        {/* <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.5 }}
-          className="mb-12"
-        >
-          <div className="bg-[#062719] h-40 sm:h-56 rounded-lg"></div>
-        </motion.div> */}
-        {/* <MusicPlayer /> */}
       </div>
       <Footer />
     </div>
@@ -100,112 +80,4 @@ const Home = () => {
 };
 
 export default Home;
-
-const Card = ({ title, icon, index, description, link, disabled }) => {
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: 0.1 * index, duration: 0.3 }}
-      className={`bg-[#062719]/20 rounded-xl p-6 flex flex-col items-start justify-between aspect-[4/5] relative overflow-hidden group hover:bg-[#062719]/40 transition-colors duration-300 ${
-        disabled ? "opacity-50 cursor-not-allowed" : ""
-      }`}
-    >
-      <motion.span
-        initial={{ scale: 1 }}
-        whileHover={{ scale: 1.2 }}
-        className="text-[#5AD1B1] text-3xl mb-4"
-      >
-        {icon}
-      </motion.span>
-      <div>
-        <motion.h2
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2 * index, duration: 0.3 }}
-          className="text-base sm:text-lg font-semibold mb-2"
-        >
-          {title}
-        </motion.h2>
-        <motion.p
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.3 * index, duration: 0.3 }}
-          className="text-xs md:text-sm text-gray-300 mb-4"
-        >
-          {description}
-        </motion.p>
-      </div>
-      <motion.div
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.4 * index, duration: 0.3 }}
-        className="w-full"
-      >
-        <Link to={link}>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className={`w-full bg-[#0b4334] text-[#fff] py-2 rounded-full text-xs md:text-sm font-semibold transition-colors duration-300 ${
-              disabled ? "bg-[#06241c] cursor-not-allowed" : "hover:bg-[#4BC0A0]"
-            }`}
-            disabled={disabled}
-          >
-            {disabled ? "Coming Soon" : `Explore ${title}`}
-          </motion.button>
-        </Link>
-      </motion.div>
-    </motion.div>
-  );
-};
-
-const MusicPlayer = () => {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.9, duration: 0.5 }}
-      className="px-4 mb-8"
-    >
-      <button className="w-full bg-[#062719] text-white py-3 rounded-full border border-[#5AD1B1] text-sm sm:text-base hover:bg-[#0a3b25] transition-colors duration-300">
-        Music Player
-      </button>
-    </motion.div>
-  );
-};
-
-const Footer = () => {
-  return (
-    <footer className="py-6 text-xs text-gray-400">
-    <div className="container mx-auto  px-2 md:px-6 lg:px-6 ">
-      <h1 className="text-[#5AD1B1] font-bold text-48 sm:text-xl mb-2">
-        <span className="italic font-semibold">Lotus</span>Focus
-      </h1>
-      <div className="flex flex-col sm:flex-row justify-between space-y-4 sm:space-y-0">
-        <div>
-          <p className="font-semibold mb-1">Our Socials:</p>
-          <p><a href="https://www.instagram.com/akshit.ffs/" target="_blank" rel="noopener noreferrer">akshit.ffs</a></p>
-          <p><a href="https://www.instagram.com/h4rshitfr/" target="_blank" rel="noopener noreferrer">h4rshitfr</a></p>
-          <p><a href="https://www.instagram.com/tarun185/" target="_blank" rel="noopener noreferrer">tarun185</a></p>
-        </div>
-        <div>
-          <p className="font-semibold mb-1">Created By</p>
-          <p>Akshit</p>
-          <p>Harshit</p>
-          <p>Tarun</p>
-        </div>
-        <div>
-          <p className="font-semibold mb-1">Contact us</p>
-          <p>akshit@gmail.com</p>
-          <p>harshit@gmail.com</p>
-          <p>tarun@gmail.com</p>
-        </div>
-      </div>
-      <p className="text-center mt-12">© 2024 LotusFocus. All rights reserved.</p>
-    </div>
-  </footer>
-  
-  );
-};
-
 

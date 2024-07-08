@@ -4,8 +4,11 @@ import { Nav2 } from "../Navbar/Nav2";
 import { Link } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import Card from "../Card/Card";
+import useAuthCheck from "../../utils/checkAuth";
+import { Loading } from "../Loader/Loading";
 
 const Home = () => {
+  const { isLoggedIn, isLoading } = useAuthCheck(); 
   const cards = [
     { 
       title: "Therapy", 
@@ -45,6 +48,11 @@ const Home = () => {
       disabled: true
     },
   ];
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-customGreen to-customBlack text-white">

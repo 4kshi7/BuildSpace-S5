@@ -31,10 +31,6 @@ app.use(cookieParser())
 app.use(express.json());
 
 //server
-app.get('/ping', (req, res) => {
-  res.send('Pong!');
-});
-
 app.use("/api/v1/user", authRoutes);
 app.use("/api/v1/post", postRoutes);
 app.use("/api/v1/journal", journalRoutes);

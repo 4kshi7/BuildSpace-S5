@@ -15,8 +15,8 @@ export const apiLimiter = rateLimit({
 });
 
 export const createPostLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour
-  max: 5,
+  windowMs: 15 * 60 * 1000, // 15min
+  max: 35,
   message:
     "Too many posts created from this IP, please try again after an hour",
   standardHeaders: true,
@@ -24,8 +24,8 @@ export const createPostLimiter = rateLimit({
 });
 
 export const createJournalLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour
-  max: 10,
+  windowMs: 15 * 60 * 1000, // 15min
+  max: 35,
   standardHeaders: true,
   legacyHeaders: false,
   message: "Too many journals created. Please try again in an hour.",
